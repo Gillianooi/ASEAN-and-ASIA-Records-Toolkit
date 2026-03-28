@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ASEAN Records and ASIA Records Toolkit</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #C9A84C; --gold-light: #E8C96A; --gold-dim: #8A6D2F; --gold-pale: rgba(201,168,76,0.08);
+  --dark: #0A0A0A; --dark-2: #111111; --dark-3: #181818; --dark-4: #202020; --dark-5: #282828;
+  --border: rgba(201,168,76,0.18); --border-dim: rgba(201,168,76,0.08);
+  --text: #E4DDD0; --text-dim: #7A7268; --text-mid: #B0A898;
+  --red: #E05555; --green: #5AAF7A; --blue: #5A8FAF;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;min-height:100vh;padding-bottom:80px;}
+
+/* HEADER */
+.header{background:linear-gradient(160deg,#131008 0%,#0e0e0e 60%);border-bottom:1px solid var(--border);padding:16px 20px 12px;position:sticky;top:0;z-index:200;}
+.header-row{display:flex;align-items:center;gap:10px;margin-bottom:3px;}
+.logo{width:28px;height:28px;background:linear-gradient(135deg,var(--gold),var(--gold-dim));border-radius:5px;display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:700;color:#0A0A0A;flex-shrink:0;}
+.header h1{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;color:var(--gold-light);letter-spacing:0.02em;}
+.header-sub{font-size:9px;color:var(--text-dim);letter-spacing:0.1em;text-transform:uppercase;padding-left:38px;}
+
+/* NAV TABS */
+.nav{display:flex;overflow-x:auto;background:var(--dark-2);border-bottom:1px solid var(--border);position:sticky;top:61px;z-index:199;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.nav::-webkit-scrollbar{display:none;}
+.nav-tab{flex-shrink:0;padding:11px 14px;font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-dim);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;background:none;border-top:none;border-left:none;border-right:none;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.nav-tab.active{color:var(--gold-light);border-bottom-color:var(--gold);}
+
+/* PANELS */
+.panel{display:none;padding:18px 20px;max-width:620px;margin:0 auto;}
+.panel.active{display:block;}
+
+/* SHARED COMPONENTS */
+.sec-label{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+.card{background:var(--dark-2);border:1px solid var(--border);border-radius:11px;padding:15px;margin-bottom:12px;}
+.field{margin-bottom:13px;}
+.field:last-child{margin-bottom:0;}
+label{display:block;font-size:10px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-dim);margin-bottom:5px;}
+label .opt{color:var(--gold-dim);font-size:8px;margin-left:3px;text-transform:none;letter-spacing:0;font-weight:400;}
+input[type=text],input[type=url],textarea,select{width:100%;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:7px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;transition:border-color 0.2s;-webkit-appearance:none;}
+input:focus,textarea:focus,select:focus{border-color:var(--gold);background:var(--dark-4);}
+input::placeholder,textarea::placeholder{color:rgba(122,114,104,0.6);font-size:12px;}
+textarea{resize:vertical;min-height:75px;line-height:1.6;}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='7' viewBox='0 0 10 7'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%23C9A84C' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 11px center;padding-right:32px;cursor:pointer;}
+select option{background:#181818;}
+
+.plat-row{display:flex;gap:7px;}
+.plat-btn{flex:1;padding:9px 5px;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:7px;color:var(--text-dim);font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;cursor:pointer;transition:all 0.2s;text-align:center;}
+.plat-btn.active{background:rgba(201,168,76,0.1);border-color:var(--gold);color:var(--gold-light);}
+
+.url-wrap{position:relative;}
+.url-wrap input{padding-left:33px;}
+.url-icon{position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--text-dim);pointer-events:none;}
+
+/* FILE DROP */
+.file-drop{border:1px dashed rgba(201,168,76,0.25);border-radius:7px;padding:16px;text-align:center;cursor:pointer;background:var(--dark-3);position:relative;transition:all 0.2s;}
+.file-drop.dragover{border-color:var(--gold);background:rgba(201,168,76,0.05);}
+.file-drop input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.file-drop-icon{font-size:20px;margin-bottom:5px;}
+.file-drop-text{font-size:11px;color:var(--text-dim);line-height:1.5;}
+.file-drop-text strong{color:var(--gold);font-weight:500;}
+.file-list{margin-top:9px;display:flex;flex-direction:column;gap:5px;}
+.file-item{background:var(--dark-4);border:1px solid var(--border-dim);border-radius:6px;padding:7px 10px;display:flex;align-items:center;gap:8px;}
+.fi-icon{font-size:14px;flex-shrink:0;}
+.fi-info{flex:1;min-width:0;}
+.fi-name{font-size:11px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.fi-size{font-size:9px;color:var(--text-dim);margin-top:1px;}
+.fi-rm{width:20px;height:20px;border-radius:50%;background:rgba(224,85,85,0.12);border:none;color:#E08080;font-size:14px;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+
+/* DIRECTION */
+.dir-grid{display:flex;flex-direction:column;gap:7px;}
+.dir-item{background:var(--dark-3);border:1px solid rgba(201,168,76,0.1);border-radius:9px;padding:11px 13px;cursor:pointer;transition:all 0.2s;display:flex;align-items:flex-start;gap:11px;}
+.dir-item.sel{background:rgba(201,168,76,0.08);border-color:var(--gold);}
+.dir-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.25);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:transparent;transition:all 0.2s;}
+.dir-item.sel .dir-chk{background:var(--gold);border-color:var(--gold);color:#0A0A0A;}
+.dir-title{font-size:12px;font-weight:500;color:var(--text);margin-bottom:2px;}
+.dir-desc{font-size:10px;color:var(--text-dim);line-height:1.5;}
+
+/* SUBTABS (within a panel) */
+.subtabs{display:flex;gap:0;background:var(--dark-3);border-radius:8px;padding:3px;margin-bottom:14px;}
+.subtab{flex:1;padding:8px;font-size:10px;font-weight:500;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-dim);text-align:center;cursor:pointer;border-radius:6px;transition:all 0.2s;border:none;background:none;font-family:'DM Sans',sans-serif;}
+.subtab.active{background:rgba(201,168,76,0.12);color:var(--gold-light);}
+.subpanel{display:none;}
+.subpanel.active{display:block;}
+
+/* NOTE BOX */
+.note{background:rgba(201,168,76,0.05);border:1px solid rgba(201,168,76,0.12);border-radius:7px;padding:9px 11px;font-size:11px;color:var(--text-dim);line-height:1.6;margin-bottom:12px;}
+.note strong{color:var(--gold);}
+.note.blue{background:rgba(90,143,175,0.06);border-color:rgba(90,143,175,0.2);}
+.note.blue strong{color:#7AB8D4;}
+
+/* GENERATE BTN */
+.gen-btn{width:100%;padding:14px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold-dim) 100%);border:none;border-radius:9px;color:#0A0A0A;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;letter-spacing:0.04em;cursor:pointer;transition:opacity 0.2s,transform 0.1s;display:flex;align-items:center;justify-content:center;gap:7px;margin-top:14px;}
+.gen-btn:active{transform:scale(0.98);}
+.gen-btn:disabled{opacity:0.45;cursor:not-allowed;transform:none;}
+.sec-btn{background:var(--dark-3);border:1px solid var(--border);border-radius:8px;padding:10px 16px;color:var(--gold);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;}
+.sec-btn:active{background:rgba(201,168,76,0.1);}
+
+/* LOADING */
+.loading{background:var(--dark-2);border:1px solid var(--border);border-radius:11px;padding:28px 20px;text-align:center;margin-top:18px;display:none;}
+.loading.show{display:block;}
+.spinner{width:32px;height:32px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.load-title{font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--gold-light);margin-bottom:5px;}
+.load-sub{font-size:11px;color:var(--text-dim);}
+.load-steps{margin-top:14px;display:flex;flex-direction:column;gap:5px;}
+.load-step{font-size:10px;color:var(--text-dim);display:flex;align-items:center;gap:7px;justify-content:center;opacity:0;transition:opacity 0.4s;}
+.load-step.show{opacity:1;}
+.load-dot{width:4px;height:4px;background:var(--gold);border-radius:50%;flex-shrink:0;}
+
+/* ERROR */
+.err{background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.25);border-radius:9px;padding:12px 14px;margin-top:14px;font-size:12px;color:#E09090;display:none;line-height:1.6;}
+.err.show{display:block;}
+
+/* RESULT */
+.result{background:var(--dark-2);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-top:18px;display:none;}
+.result.show{display:block;}
+.result-head{background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border-bottom:1px solid var(--border);padding:12px 15px;display:flex;align-items:center;justify-content:space-between;}
+.result-head-l{display:flex;align-items:center;gap:7px;}
+.badge{background:var(--gold);color:#0A0A0A;font-size:9px;font-weight:700;letter-spacing:0.08em;padding:2px 7px;border-radius:3px;text-transform:uppercase;}
+.result-label{font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold-light);}
+.copy-btn{background:rgba(201,168,76,0.08);border:1px solid var(--border);border-radius:5px;padding:5px 11px;color:var(--gold);font-size:10px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.copy-btn:active{background:rgba(201,168,76,0.18);}
+.result-body{padding:14px;}
+.result-scroll{max-height:65vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.result-scroll::-webkit-scrollbar{width:3px;}
+.result-scroll::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+.result-text{font-size:12px;line-height:1.85;color:var(--text);white-space:pre-wrap;}
+
+/* DASHBOARD */
+.cand-list{display:flex;flex-direction:column;gap:8px;}
+.cand-card{background:var(--dark-2);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.cand-header{padding:12px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;}
+.cand-name{font-size:13px;font-weight:500;color:var(--text);}
+.cand-meta{font-size:10px;color:var(--text-dim);margin-top:2px;}
+.cand-progress{display:flex;align-items:center;gap:8px;}
+.prog-bar-wrap{width:60px;height:4px;background:var(--dark-5);border-radius:2px;overflow:hidden;}
+.prog-bar{height:100%;background:var(--gold);border-radius:2px;transition:width 0.3s;}
+.prog-pct{font-size:10px;color:var(--gold);font-weight:500;min-width:28px;text-align:right;}
+.cand-body{padding:0 14px 14px;display:none;}
+.cand-body.open{display:block;}
+.steps-grid{display:flex;flex-direction:column;gap:4px;margin-top:10px;}
+.step-row{display:flex;align-items:center;gap:10px;padding:7px 10px;background:var(--dark-3);border-radius:6px;cursor:pointer;transition:background 0.2s;}
+.step-row:active{background:var(--dark-4);}
+.step-chk{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(201,168,76,0.2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;transition:all 0.2s;}
+.step-row.done .step-chk{background:var(--green);border-color:var(--green);color:#fff;}
+.step-row.done .step-chk::after{content:'✓';}
+.step-num{font-size:9px;color:var(--text-dim);font-weight:600;min-width:16px;}
+.step-name{font-size:11px;color:var(--text);flex:1;}
+.step-row.done .step-name{color:var(--text-dim);text-decoration:line-through;}
+.cand-actions{display:flex;gap:7px;margin-top:10px;}
+.cand-del{background:rgba(224,85,85,0.08);border:1px solid rgba(224,85,85,0.2);border-radius:6px;padding:7px 12px;color:#E08080;font-size:11px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+.add-cand-form{background:var(--dark-2);border:1px dashed var(--border);border-radius:10px;padding:14px;margin-bottom:12px;}
+.add-row{display:flex;gap:8px;}
+.add-row input{flex:1;}
+.add-btn{background:var(--gold);border:none;border-radius:7px;padding:10px 14px;color:#0A0A0A;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;}
+.pipeline-stage{background:var(--dark-2);border:1px solid var(--border);border-radius:9px;padding:11px 13px;margin-bottom:7px;}
+.pipeline-stage-title{font-size:10px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:var(--gold);margin-bottom:7px;display:flex;align-items:center;gap:7px;}
+.pipeline-stage-title .stage-count{background:var(--gold);color:#0A0A0A;font-size:9px;font-weight:700;padding:1px 6px;border-radius:10px;}
+.pipeline-pill{display:inline-flex;align-items:center;gap:5px;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:20px;padding:4px 10px;margin:2px 3px 2px 0;font-size:11px;color:var(--text);}
+.pipeline-pill .pill-pct{font-size:9px;color:var(--gold);font-weight:600;}
+.empty-state{text-align:center;padding:32px 20px;color:var(--text-dim);font-size:12px;line-height:1.7;}
+.empty-icon{font-size:28px;margin-bottom:8px;}
+.empty-icon{font-size:28px;margin-bottom:8px;}
+
+/* CHECKLIST PREVIEW */
+.checklist-out{background:var(--dark-3);border:1px solid var(--border);border-radius:9px;padding:14px;margin-top:12px;font-size:12px;line-height:1.8;color:var(--text);white-space:pre-wrap;max-height:60vh;overflow-y:auto;}
+.checklist-out::-webkit-scrollbar{width:3px;}
+.checklist-out::-webkit-scrollbar-thumb{background:var(--gold-dim);border-radius:2px;}
+
+.divider{height:1px;background:var(--border);margin:20px 0;}
+
+/* HISTORY */
+.hist-item{background:var(--dark-2);border:1px solid rgba(201,168,76,0.08);border-radius:9px;padding:11px 13px;margin-bottom:7px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:9px;}
+.hist-item:active{border-color:var(--gold);}
+.hist-name{font-size:13px;color:var(--text);font-weight:500;}
+.hist-meta{font-size:10px;color:var(--text-dim);margin-top:2px;}
+.hist-arr{color:var(--gold-dim);font-size:15px;flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-row">
+    <div class="logo">R</div>
+    <h1>ASEAN Records and ASIA Records Toolkit</h1>
+  </div>
+  <div class="header-sub">Internal Operations Tool · Confidential</div>
+</div>
+
+<div class="nav">
+  <button class="nav-tab active" onclick="goTab('title')">🏆 Title</button>
+  <button class="nav-tab" onclick="goTab('checklist')">📋 Checklist</button>
+  <button class="nav-tab" onclick="goTab('certificate')">📜 Certificate</button>
+  <button class="nav-tab" onclick="goTab('press')">📰 Press Release</button>
+  <button class="nav-tab" onclick="goTab('dashboard')">📊 Dashboard</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 1: TITLE GENERATOR
+═══════════════════════════════════════════════ -->
+<div class="panel active" id="panel-title">
+
+  <div class="subtabs">
+    <button class="subtab active" onclick="titleTab('info')">① Candidate Info</button>
+    <button class="subtab" onclick="titleTab('direction')">② Focus Direction</button>
+  </div>
+
+  <!-- INFO -->
+  <div class="subpanel active" id="tsub-info">
+    <div class="sec-label">Basic Info</div>
+    <div class="card">
+      <div class="field">
+        <label>Organization / Individual Name *</label>
+        <input type="text" id="t-name" placeholder="e.g. ABC Holdings Sdn Bhd" />
+      </div>
+      <div class="field">
+        <label>Record Platform</label>
+        <div class="plat-row">
+          <button class="plat-btn active" onclick="setPlat('ASEAN')" id="pb-asean">ASEAN</button>
+          <button class="plat-btn" onclick="setPlat('Asia')" id="pb-asia">ASIA</button>
+          <button class="plat-btn" onclick="setPlat('Both')" id="pb-both">Assess Both</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Industry <span class="opt">optional</span></label>
+        <input type="text" id="t-industry" placeholder="e.g. F&B, Property, Healthcare" />
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Country <span class="opt">optional</span></label>
+        <input type="text" id="t-country" placeholder="e.g. Malaysia" />
+      </div>
+    </div>
+
+    <div class="sec-label">Online Research</div>
+    <div class="card">
+      <div class="field">
+        <label>Company Website <span class="opt">AI will browse</span></label>
+        <div class="url-wrap">
+          <span class="url-icon">🔗</span>
+          <input type="url" id="t-url" placeholder="https://www.company.com" style="padding-left:32px" />
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Additional URLs <span class="opt">news, LinkedIn, awards page</span></label>
+        <textarea id="t-urls" placeholder="https://...&#10;https://..." style="min-height:55px"></textarea>
+      </div>
+    </div>
+
+    <div class="sec-label">Attach Files <span style="color:var(--text-dim);font-size:8px;text-transform:none;letter-spacing:0;margin-left:3px">Corporate deck, product info, credentials</span></div>
+    <div class="card">
+      <div class="file-drop" id="t-drop">
+        <input type="file" id="t-files" multiple accept=".pdf,.doc,.docx,.ppt,.pptx,.txt,.png,.jpg,.jpeg" onchange="handleFiles('t',this.files)" />
+        <div class="file-drop-icon">📎</div>
+        <div class="file-drop-text"><strong>Tap to attach</strong> · PDF, Word, PPT, Images</div>
+      </div>
+      <div class="file-list" id="t-filelist"></div>
+    </div>
+
+    <div class="sec-label">Notes & Preferences</div>
+    <div class="card">
+      <div class="field">
+        <label>Key Achievements / Context <span class="opt">optional</span></label>
+        <textarea id="t-context" placeholder="Metrics, certifications, scale, founding year, unique aspects..."></textarea>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Complexity</label>
+        <select id="t-complexity">
+          <option value="auto">Auto-assess (Recommended)</option>
+          <option value="single">Single-Element only</option>
+          <option value="composite">Composite (3–4 elements)</option>
+          <option value="super">Super-Composite (4–6 elements)</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generateTitle()" id="t-genbtn">✦ Generate Record Titles</button>
+  </div>
+
+  <!-- DIRECTION -->
+  <div class="subpanel" id="tsub-direction">
+    <div class="note"><strong>Optional.</strong> Select angles to prioritise. Multiple selections allowed. If none chosen, AI auto-determines strongest angle.</div>
+    <div class="sec-label">Focus Angles</div>
+    <div class="dir-grid">
+      <div class="dir-item" onclick="toggleDir(this,'scale')"><div class="dir-chk">✓</div><div><div class="dir-title">📐 Scale & Size</div><div class="dir-desc">Largest volume, area, headcount, revenue, or reach.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'first')"><div class="dir-chk">✓</div><div><div class="dir-title">🥇 First Mover / Pioneer</div><div class="dir-desc">First in region to introduce this concept or model.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'cert')"><div class="dir-chk">✓</div><div><div class="dir-title">🏅 Certifications & Standards</div><div class="dir-desc">Halal, ISO, GMP, government recognition, institutional backing.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'network')"><div class="dir-chk">✓</div><div><div class="dir-title">🌐 Network & Partnerships</div><div class="dir-desc">Countries, partners, hospitals, distribution channels.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'impact')"><div class="dir-chk">✓</div><div><div class="dir-title">👥 People Impact</div><div class="dir-desc">Participants, lives impacted, students trained, community reach.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'ip')"><div class="dir-chk">✓</div><div><div class="dir-title">💡 Innovation & IP</div><div class="dir-desc">Patents, proprietary technology, R&D investment.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'finance')"><div class="dir-chk">✓</div><div><div class="dir-title">💰 Revenue & Financial</div><div class="dir-desc">Highest revenue, fastest growth, largest financial scale.</div></div></div>
+      <div class="dir-item" onclick="toggleDir(this,'event')"><div class="dir-chk">✓</div><div><div class="dir-title">🎪 Events & Gatherings</div><div class="dir-desc">Largest event, most attendees, most sessions.</div></div></div>
+    </div>
+    <div class="sec-label" style="margin-top:14px">Custom Direction <span style="color:var(--text-dim);font-size:8px;text-transform:none;letter-spacing:0;margin-left:3px">optional</span></div>
+    <div class="card">
+      <textarea id="t-customdir" placeholder="e.g. Focus on Halal cert + clinical backing + multi-country presence..." style="min-height:65px;margin-bottom:0"></textarea>
+    </div>
+    <button class="gen-btn" onclick="titleTab('info');setTimeout(generateTitle,80)">✦ Generate Now</button>
+  </div>
+
+  <div class="loading" id="t-loading">
+    <div class="spinner"></div>
+    <div class="load-title">Researching Candidate...</div>
+    <div class="load-sub">30–90 seconds</div>
+    <div class="load-steps">
+      <div class="load-step" id="ts1"><span class="load-dot"></span>Browsing website & URLs</div>
+      <div class="load-step" id="ts2"><span class="load-dot"></span>Reviewing attached documents</div>
+      <div class="load-step" id="ts3"><span class="load-dot"></span>Analysing competitive landscape</div>
+      <div class="load-step" id="ts4"><span class="load-dot"></span>Assessing achievement strength</div>
+      <div class="load-step" id="ts5"><span class="load-dot"></span>Generating & stress-testing titles</div>
+    </div>
+  </div>
+  <div class="err" id="t-err"></div>
+  <div class="result" id="t-result">
+    <div class="result-head">
+      <div class="result-head-l"><span class="badge" id="t-badge">ASEAN</span><span class="result-label">Proposed Titles</span></div>
+      <button class="copy-btn" onclick="copyRes('t-result-text')">Copy</button>
+    </div>
+    <div class="result-body"><div class="result-scroll"><div class="result-text" id="t-result-text"></div></div></div>
+  </div>
+  <div id="t-history-section" style="display:none">
+    <div class="divider"></div>
+    <div class="sec-label">Recent</div>
+    <div id="t-history-list"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 2: VERIFICATION CHECKLIST
+═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-checklist">
+
+  <div class="note blue">
+    <strong>Step 6 · Verification Checklist</strong><br>
+    Enter the confirmed record title and candidate info. The checklist will be generated for you to send directly to the applicant.
+  </div>
+
+  <div class="sec-label">Record Details</div>
+  <div class="card">
+    <div class="field">
+      <label>Candidate / Organization Name *</label>
+      <input type="text" id="cl-name" placeholder="e.g. ABC Holdings Sdn Bhd" />
+    </div>
+    <div class="field">
+      <label>Confirmed Record Title *</label>
+      <textarea id="cl-title" placeholder="e.g. Largest Halal-Certified Exosome Skincare with Multi-Institutional Clinical Backing&#10;(XX partner hospitals across XX countries since 20XX)" style="min-height:65px"></textarea>
+    </div>
+    <div class="field">
+      <label>Record Type</label>
+      <select id="cl-type">
+        <option value="direct">Direct Record Recognition (verified before event)</option>
+        <option value="attempt">Official Record Attempt (verified during event)</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Platform</label>
+      <div class="plat-row">
+        <button class="plat-btn active" onclick="setClPlat('ASEAN')" id="clp-asean">ASEAN</button>
+        <button class="plat-btn" onclick="setClPlat('Asia')" id="clp-asia">ASIA</button>
+        <button class="plat-btn" onclick="setClPlat('Both')" id="clp-both">Both</button>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>Additional Context <span class="opt">optional — specific docs you already know are needed</span></label>
+      <textarea id="cl-context" placeholder="e.g. Need halal cert, ISO cert, hospital partnership agreements..." style="min-height:55px"></textarea>
+    </div>
+  </div>
+
+  <button class="gen-btn" onclick="generateChecklist()" id="cl-genbtn">✦ Generate Checklist</button>
+
+  <div class="loading" id="cl-loading">
+    <div class="spinner"></div>
+    <div class="load-title">Generating Checklist...</div>
+    <div class="load-sub">Tailoring to your record title...</div>
+  </div>
+  <div class="err" id="cl-err"></div>
+  <div class="result" id="cl-result">
+    <div class="result-head">
+      <div class="result-head-l"><span class="badge">CHECKLIST</span><span class="result-label">Verification Documents</span></div>
+      <button class="copy-btn" onclick="copyRes('cl-result-text')">Copy</button>
+    </div>
+    <div class="result-body"><div class="result-scroll"><div class="result-text" id="cl-result-text"></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 3: CERTIFICATE DRAFT
+═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-certificate">
+
+  <div class="note blue">
+    <strong>Step 11 · Certificate Content</strong><br>
+    Fill in record details to generate the certificate wording draft for approval.
+  </div>
+
+  <div class="sec-label">Certificate Details</div>
+  <div class="card">
+    <div class="field">
+      <label>Record Holder Name *</label>
+      <input type="text" id="cert-holder" placeholder="Full name or organization name as it appears on certificate" />
+    </div>
+    <div class="field">
+      <label>Record Title *</label>
+      <textarea id="cert-title" placeholder="Confirmed record title with bracket details" style="min-height:65px"></textarea>
+    </div>
+    <div class="field">
+      <label>Platform</label>
+      <div class="plat-row">
+        <button class="plat-btn active" onclick="setCertPlat('ASEAN')" id="certp-asean">ASEAN</button>
+        <button class="plat-btn" onclick="setCertPlat('ASIA')" id="certp-asia">ASIA</button>
+        <button class="plat-btn" onclick="setCertPlat('Both')" id="certp-both">Both</button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Presentation Date <span class="opt">optional</span></label>
+      <input type="text" id="cert-date" placeholder="e.g. 15 March 2025" />
+    </div>
+    <div class="field" style="margin-bottom:0">
+      <label>Event / Ceremony Name <span class="opt">optional</span></label>
+      <input type="text" id="cert-event" placeholder="e.g. ABC Holdings Annual Gala 2025" />
+    </div>
+  </div>
+
+  <button class="gen-btn" onclick="generateCertificate()" id="cert-genbtn">✦ Generate Certificate Draft</button>
+
+  <div class="loading" id="cert-loading">
+    <div class="spinner"></div>
+    <div class="load-title">Drafting Certificate...</div>
+    <div class="load-sub">Preparing wording for approval...</div>
+  </div>
+  <div class="err" id="cert-err"></div>
+  <div class="result" id="cert-result">
+    <div class="result-head">
+      <div class="result-head-l"><span class="badge">DRAFT</span><span class="result-label">Certificate Content</span></div>
+      <button class="copy-btn" onclick="copyRes('cert-result-text')">Copy</button>
+    </div>
+    <div class="result-body"><div class="result-scroll"><div class="result-text" id="cert-result-text"></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 4: PRESS RELEASE
+═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-press">
+
+  <div class="subtabs">
+    <button class="subtab active" onclick="pressTab('draft')">✍️ AI Draft</button>
+    <button class="subtab" onclick="pressTab('polish')">✨ Polish Mine</button>
+  </div>
+
+  <!-- AI DRAFT -->
+  <div class="subpanel active" id="psub-draft">
+    <div class="note blue"><strong>AI Draft</strong> — Fill in details and AI will write the full press release.</div>
+    <div class="sec-label">Record & Event Details</div>
+    <div class="card">
+      <div class="field">
+        <label>Organization / Record Holder *</label>
+        <input type="text" id="pr-org" placeholder="e.g. ABC Holdings Sdn Bhd" />
+      </div>
+      <div class="field">
+        <label>Record Title *</label>
+        <textarea id="pr-title" placeholder="Full confirmed record title with bracket details" style="min-height:60px"></textarea>
+      </div>
+      <div class="field">
+        <label>Platform</label>
+        <select id="pr-platform">
+          <option value="ASEAN">ASEAN Records</option>
+          <option value="Asia">ASIA Records</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Presentation Date & Venue <span class="opt">optional</span></label>
+        <input type="text" id="pr-event" placeholder="e.g. 15 March 2025, Hilton KL" />
+      </div>
+      <div class="field">
+        <label>Key Achievements & Figures</label>
+        <textarea id="pr-facts" placeholder="Key stats, milestones, certifications, founding story, impact..."></textarea>
+      </div>
+      <div class="field">
+        <label>Quote from Representative <span class="opt">optional</span></label>
+        <textarea id="pr-quote" placeholder="Name, title, and what they want to say..." style="min-height:55px"></textarea>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Tone</label>
+        <select id="pr-tone">
+          <option value="formal">Formal & Professional</option>
+          <option value="warm">Warm & Celebratory</option>
+          <option value="business">Business-focused</option>
+        </select>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generatePress('draft')" id="pr-genbtn1">✦ Generate Press Release</button>
+  </div>
+
+  <!-- POLISH -->
+  <div class="subpanel" id="psub-polish">
+    <div class="note blue"><strong>Polish My Draft</strong> — Paste your draft and AI will enhance, restructure, and align with ASEAN Records standards.</div>
+    <div class="card">
+      <div class="field">
+        <label>Your Draft Press Release *</label>
+        <textarea id="pr-draft" placeholder="Paste your press release draft here..." style="min-height:140px"></textarea>
+      </div>
+      <div class="field">
+        <label>Record Title (for reference) <span class="opt">optional</span></label>
+        <textarea id="pr-ref-title" placeholder="Confirmed record title..." style="min-height:50px"></textarea>
+      </div>
+      <div class="field" style="margin-bottom:0">
+        <label>Specific Instructions <span class="opt">optional</span></label>
+        <textarea id="pr-instructions" placeholder="e.g. Make it more formal, add intro paragraph, highlight the Halal certification angle..." style="min-height:55px"></textarea>
+      </div>
+    </div>
+    <button class="gen-btn" onclick="generatePress('polish')" id="pr-genbtn2">✦ Polish Press Release</button>
+  </div>
+
+  <div class="loading" id="pr-loading">
+    <div class="spinner"></div>
+    <div class="load-title">Writing Press Release...</div>
+    <div class="load-sub">Crafting your announcement...</div>
+  </div>
+  <div class="err" id="pr-err"></div>
+  <div class="result" id="pr-result">
+    <div class="result-head">
+      <div class="result-head-l"><span class="badge">PRESS</span><span class="result-label">Press Release</span></div>
+      <button class="copy-btn" onclick="copyRes('pr-result-text')">Copy</button>
+    </div>
+    <div class="result-body"><div class="result-scroll"><div class="result-text" id="pr-result-text"></div></div></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TAB 5: CANDIDATE DASHBOARD
+═══════════════════════════════════════════════ -->
+<div class="panel" id="panel-dashboard">
+
+  <div class="sec-label">Add Candidate</div>
+  <div class="add-cand-form">
+    <div class="add-row">
+      <input type="text" id="new-cand-name" placeholder="Candidate / Organization name" onkeydown="if(event.key==='Enter')addCandidate()" />
+      <button class="add-btn" onclick="addCandidate()">+ Add</button>
+    </div>
+    <div style="margin-top:8px;display:flex;gap:7px;">
+      <select id="new-cand-platform" style="flex:1;background:var(--dark-3);border:1px solid rgba(201,168,76,0.15);border-radius:7px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;-webkit-appearance:none;">
+        <option value="ASEAN Records">ASEAN Records</option>
+        <option value="ASIA Records">ASIA Records</option>
+        <option value="ASEAN Records and ASIA Records">Both</option>
+      </select>
+      <select id="new-cand-status" style="flex:1;background:var(--dark-3);border:1px solid rgba(201,168,76,0.15);border-radius:7px;padding:10px 12px;color:var(--text);font-family:'DM Sans',sans-serif;font-size:13px;outline:none;-webkit-appearance:none;">
+        <option value="proposed">🟡 Proposed</option>
+        <option value="confirmed">🟢 Confirmed</option>
+      </select>
+    </div>
+    <div style="margin-top:8px;">
+      <input type="text" id="new-cand-proposed" placeholder="Proposed title(s) — e.g. Option 1: Largest Halal-Certified..." style="width:100%" />
+    </div>
+    <div style="margin-top:8px;">
+      <input type="text" id="new-cand-record" placeholder="Confirmed record title (fill after approval)" style="width:100%" />
+    </div>
+  </div>
+
+  <!-- PIPELINE OVERVIEW -->
+  <div class="sec-label">Pipeline Overview</div>
+  <div id="pipeline-wrap" style="margin-bottom:12px">
+    <div class="empty-state" id="pipeline-empty" style="padding:16px;font-size:11px">Add candidates to see pipeline.</div>
+    <div id="pipeline-grid"></div>
+  </div>
+
+  <!-- STATUS REPORT -->
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+    <div class="sec-label" style="flex:1;margin-bottom:0">Active Candidates</div>
+    <button class="sec-btn" onclick="generateStatusReport()" id="report-btn" style="font-size:10px;padding:7px 12px">📄 Status Report</button>
+  </div>
+
+  <!-- STATUS REPORT OUTPUT -->
+  <div id="status-report-wrap" style="display:none;margin-bottom:14px">
+    <div style="background:var(--dark-2);border:1px solid var(--border);border-radius:10px;overflow:hidden">
+      <div style="background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(201,168,76,0.03));border-bottom:1px solid var(--border);padding:11px 14px;display:flex;align-items:center;justify-content:space-between">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:14px;color:var(--gold-light)">Status Report</span>
+        <div style="display:flex;gap:7px">
+          <button class="copy-btn" onclick="copyReportText()">Copy</button>
+          <button style="background:none;border:none;color:var(--text-dim);font-size:16px;cursor:pointer;padding:0 4px" onclick="document.getElementById('status-report-wrap').style.display='none'">×</button>
+        </div>
+      </div>
+      <div style="padding:14px;max-height:50vh;overflow-y:auto">
+        <div id="status-report-text" style="font-size:12px;line-height:1.8;color:var(--text);white-space:pre-wrap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="cand-list-wrap">
+    <div class="empty-state" id="dash-empty">
+      <div class="empty-icon">📋</div>
+      No candidates yet.<br>Add one above to start tracking.
+    </div>
+    <div class="cand-list" id="cand-list"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════ STATE ═══════════════════
+let activePlatform = 'ASEAN';
+let selectedDirs = [];
+let attachedFiles = { t: [] };
+let titleHistory = JSON.parse(sessionStorage.getItem('tk_th') || '[]');
+let candidates = JSON.parse(localStorage.getItem('tk_candidates') || '[]');
+let stepTimers = [];
+const STEPS = [
+  'Initial Engagement & Consultation',
+  'Consultation & Direction Setting',
+  'Application & Case Opening',
+  'Initial Materials Collection',
+  'Record Title Development',
+  'Verification Checklist & Document Request',
+  'Document Review & Confirmation',
+  'Invoice & Payment',
+  'Record Presentation Planning',
+  'Branding Materials Collection',
+  'Certificate Content & Production',
+  'Media & Event Coordination',
+  'Event Preparation',
+  'Pre-Event Checks',
+  'Record Presentation Ceremony',
+  'Post-Event Media & Publicity',
+  'Financial Closure',
+  'Record Holder Engagement'
+];
+
+// ═══════════════════ NAV ═══════════════════
+function goTab(id) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ═══════════════════ TITLE SUBTABS ═══════════════════
+function titleTab(id) {
+  ['info','direction'].forEach(k => {
+    document.getElementById('tsub-'+k).classList.toggle('active', k===id);
+  });
+  document.querySelectorAll('#panel-title .subtab').forEach((b,i) => {
+    b.classList.toggle('active', (i===0&&id==='info')||(i===1&&id==='direction'));
+  });
+}
+
+// ═══════════════════ PRESS SUBTABS ═══════════════════
+function pressTab(id) {
+  ['draft','polish'].forEach(k => {
+    document.getElementById('psub-'+k).classList.toggle('active', k===id);
+  });
+  document.querySelectorAll('#panel-press .subtab').forEach((b,i) => {
+    b.classList.toggle('active', (i===0&&id==='draft')||(i===1&&id==='polish'));
+  });
+}
+
+// ═══════════════════ PLATFORM ═══════════════════
+function setPlat(p) {
+  activePlatform = p;
+  ['asean','asia','both'].forEach(k => document.getElementById('pb-'+k).classList.remove('active'));
+  document.getElementById('pb-'+p.toLowerCase()).classList.add('active');
+}
+
+// ═══════════════════ DIRECTION ═══════════════════
+function toggleDir(el, key) {
+  el.classList.toggle('sel');
+  if (el.classList.contains('sel')) { if (!selectedDirs.includes(key)) selectedDirs.push(key); }
+  else selectedDirs = selectedDirs.filter(d => d !== key);
+}
+
+// ═══════════════════ FILES ═══════════════════
+function handleFiles(prefix, files) {
+  if (!attachedFiles[prefix]) attachedFiles[prefix] = [];
+  Array.from(files).forEach(f => {
+    if (attachedFiles[prefix].find(x => x.name === f.name)) return;
+    if (f.size > 15*1024*1024) { alert(f.name + ' exceeds 15MB'); return; }
+    attachedFiles[prefix].push(f);
+  });
+  renderFiles(prefix);
+}
+
+function removeFile(prefix, name) {
+  attachedFiles[prefix] = attachedFiles[prefix].filter(f => f.name !== name);
+  renderFiles(prefix);
+}
+
+const fmtSz = b => b<1024?b+' B':b<1048576?(b/1024).toFixed(0)+' KB':(b/1048576).toFixed(1)+' MB';
+const fIcon = n => ({pdf:'📄',doc:'📝',docx:'📝',ppt:'📊',pptx:'📊',png:'🖼️',jpg:'🖼️',jpeg:'🖼️',txt:'📋'})[n.split('.').pop().toLowerCase()]||'📎';
+
+function renderFiles(prefix) {
+  const list = document.getElementById(prefix+'-filelist');
+  if (!list) return;
+  list.innerHTML = (attachedFiles[prefix]||[]).map(f => `
+    <div class="file-item">
+      <span class="fi-icon">${fIcon(f.name)}</span>
+      <div class="fi-info"><div class="fi-name">${f.name}</div><div class="fi-size">${fmtSz(f.size)}</div></div>
+      <button class="fi-rm" onclick="removeFile('${prefix}','${f.name.replace(/'/g,"\\'")}')">×</button>
+    </div>`).join('');
+}
+
+// Drag/drop for title
+const tdrop = document.getElementById('t-drop');
+tdrop.addEventListener('dragover', e => { e.preventDefault(); tdrop.classList.add('dragover'); });
+tdrop.addEventListener('dragleave', () => tdrop.classList.remove('dragover'));
+tdrop.addEventListener('drop', e => { e.preventDefault(); tdrop.classList.remove('dragover'); handleFiles('t', e.dataTransfer.files); });
+
+// ═══════════════════ LOADING ═══════════════════
+function showLoading(id, on, steps) {
+  document.getElementById(id+'-loading').classList.toggle('show', on);
+  const btn = document.getElementById(id+'-genbtn') || document.getElementById(id+'-genbtn1');
+  if (btn) btn.disabled = on;
+  const btn2 = document.getElementById(id+'-genbtn2');
+  if (btn2) btn2.disabled = on;
+  if (!on) { stepTimers.forEach(clearTimeout); stepTimers = []; }
+  if (on && steps) {
+    steps.forEach((sid, idx) => {
+      stepTimers.push(setTimeout(() => document.getElementById(sid)?.classList.add('show'), idx*8000));
+    });
+  }
+}
+
+function hideLoading(id) {
+  showLoading(id, false);
+  (document.getElementById(id+'-loading').querySelectorAll('.load-step')||[]).forEach(s => s.classList.remove('show'));
+}
+
+// ═══════════════════ SHARED UTILS ═══════════════════
+function showErr(id, msg) { const e=document.getElementById(id+'-err'); e.innerHTML=msg; e.classList.add('show'); }
+function hideErr(id) { document.getElementById(id+'-err').classList.remove('show'); }
+function showResult(id, text, badge) {
+  document.getElementById(id+'-result-text').textContent = text;
+  const b = document.getElementById(id+'-badge');
+  if (b) b.textContent = badge;
+  document.getElementById(id+'-result').classList.add('show');
+  setTimeout(() => document.getElementById(id+'-result').scrollIntoView({behavior:'smooth',block:'start'}), 100);
+}
+function hideResult(id) { document.getElementById(id+'-result').classList.remove('show'); }
+
+function copyRes(elId) {
+  const text = document.getElementById(elId).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.currentTarget; btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+
+async function fileToB64(f) {
+  return new Promise((res,rej) => { const r=new FileReader(); r.onload=()=>res(r.result.split(',')[1]); r.onerror=()=>rej(); r.readAsDataURL(f); });
+}
+function getMime(f) {
+  if (f.type) return f.type;
+  const e=f.name.split('.').pop().toLowerCase();
+  return {pdf:'application/pdf',png:'image/png',jpg:'image/jpeg',jpeg:'image/jpeg',txt:'text/plain'}[e]||'application/octet-stream';
+}
+
+async function callClaude(prompt, files, useSearch) {
+  const content = [{ type:'text', text:prompt }];
+  if (files && files.length) {
+    for (const f of files) {
+      const mime = getMime(f);
+      const b64 = await fileToB64(f);
+      if (['image/png','image/jpeg','image/gif','image/webp'].includes(mime))
+        content.push({ type:'image', source:{type:'base64',media_type:mime,data:b64} });
+      else if (mime==='application/pdf')
+        content.push({ type:'document', source:{type:'base64',media_type:'application/pdf',data:b64} });
+      else
+        content.push({ type:'text', text:`[Attached: ${f.name} — extract key metrics, certifications, achievements, partnerships]` });
+    }
+  }
+  const body = { model:'claude-sonnet-4-20250514', max_tokens:1000, messages:[{role:'user',content}] };
+  if (useSearch) body.tools = [{type:'web_search_20250305',name:'web_search'}];
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(body)
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return (data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n').trim();
+}
+
+// ═══════════════════ TITLE GENERATOR ═══════════════════
+const dirLabels = {
+  scale:'Scale & Size (largest volume, area, headcount, revenue)',
+  first:'First Mover / Pioneer (first in region)',
+  cert:'Certifications & Standards (Halal, ISO, GMP)',
+  network:'Network & Partnerships (countries, partners, institutions)',
+  impact:'People Impact (participants, community reach)',
+  ip:'Innovation & IP (patents, proprietary tech)',
+  finance:'Revenue & Financial (highest revenue, fastest growth)',
+  event:'Events & Gatherings (largest event, most sessions)'
+};
+
+async function generateTitle() {
+  const name = document.getElementById('t-name').value.trim();
+  if (!name) { alert('Please enter candidate name.'); return; }
+  const industry = document.getElementById('t-industry').value.trim();
+  const country = document.getElementById('t-country').value.trim();
+  const context = document.getElementById('t-context').value.trim();
+  const complexity = document.getElementById('t-complexity').value;
+  const url = document.getElementById('t-url').value.trim();
+  const urls = document.getElementById('t-urls').value.trim();
+  const customDir = document.getElementById('t-customdir').value.trim();
+
+  hideErr('t'); hideResult('t');
+  showLoading('t', true, ['ts1','ts2','ts3','ts4','ts5']);
+
+  const dirNote = selectedDirs.length ? '\n\n**CLIENT FOCUS DIRECTIONS:**\n'+selectedDirs.map(d=>'- '+dirLabels[d]).join('\n') : '';
+  if (customDir) dirNote && (dirNote + '\n\n**CUSTOM DIRECTION:** '+customDir);
+  const complexNote = {auto:'',single:'\nNOTE: Prefer Single-Element if standalone strong enough.',composite:'\nNOTE: Prefer Composite (3-4 elements).',super:'\nNOTE: Prefer Super-Composite (4-6 elements).'}[complexity];
+  const platNote = activePlatform==='Both'?'Assess ASEAN and ASIA; recommend most appropriate.':`Target: ${activePlatform} Records.`;
+  let urlNote = '';
+  if (url) urlNote += `\n**Company Website (browse):** ${url}`;
+  if (urls) urlNote += `\n**Additional URLs:**\n${urls}`;
+
+  const prompt = `Propose ASEAN Records and ASIA Records titles using strict formatting.
+
+CANDIDATE: ${name}${industry?'\nIndustry: '+industry:''}${country?'\nCountry: '+country:''}${context?'\nContext: '+context:''}${urlNote}
+Platform: ${platNote}${dirNote}${complexNote}
+
+TITLE RULES:
+- Leading: First | Largest | Most | Highest ONLY
+- NO: "Only", "Comprehensive", "Extensive", "Advanced"
+- Qualitative terms only AFTER quantifiable descriptor
+- Brackets: must have numbers + time frames for cumulative data; no title repetition
+- No "ASEAN"/"Asia"/country names in title
+
+COMPLEXITY:
+Single-Element: strongest metric alone is First/Largest/Most/Highest → use this first
+Composite (3-4): single has competitors, combination doesn't
+Super-Composite (4-6): maximum replication barrier
+Do NOT force composite if single element is record-worthy.
+
+ASEAN (11): Brunei, Cambodia, Indonesia, Laos, Malaysia, Myanmar, Philippines, Singapore, Thailand, Timor-Leste, Vietnam
+Asia: China, HK, India, Japan, Korea, Taiwan, Pakistan, Bangladesh, Sri Lanka, UAE, Saudi Arabia, Israel
+
+TASKS: Browse website/URLs → Review documents → Search for background + competitors → Determine complexity → Verify no ASEAN/Asia competitor matches → Generate 3 options
+
+OUTPUT:
+RESEARCH SUMMARY
+[Organization | Industry | Country | Founded | Key metrics with time periods]
+
+COMPLEXITY RECOMMENDATION
+Approach: [Single/Composite/Super-Composite]
+Why: [Justification]
+
+PROPOSED TITLES
+Record Level: [ASEAN/Asia + why]
+
+Option 1:
+[Title]
+([Bracket with numbers + time frames])
+
+Option 2:
+[Title]
+([Bracket])
+
+Option 3:
+[Title]
+([Bracket])
+
+ELEMENT BREAKDOWN
+[Each element: description | metric + time frame | source URL]
+
+COMPETITIVE ANALYSIS
+[Competitors | elements they have | elements they lack | conclusion]
+
+STRESS TEST
+✅ Quantifiable-led ✅ No subjective terms ✅ Complexity justified ✅ Time frames included ✅ No geo names in title ✅ Evidence exists
+
+DATA GAPS
+[Items needing client verification]`;
+
+  try {
+    const text = await callClaude(prompt, attachedFiles['t']||[], true);
+    const badge = activePlatform==='Both'?'ASEAN/Asia':activePlatform;
+    showResult('t', text, badge);
+    // Save history
+    titleHistory.unshift({name, platform:badge, result:text, time:new Date().toLocaleTimeString()});
+    if (titleHistory.length>5) titleHistory=titleHistory.slice(0,5);
+    sessionStorage.setItem('tk_th', JSON.stringify(titleHistory));
+    renderTitleHistory();
+  } catch(e) {
+    showErr('t', '⚠️ '+e.message);
+  } finally {
+    hideLoading('t');
+  }
+}
+
+function renderTitleHistory() {
+  if (!titleHistory.length) return;
+  document.getElementById('t-history-section').style.display='block';
+  document.getElementById('t-history-list').innerHTML = titleHistory.map((h,i)=>`
+    <div class="hist-item" onclick="showResult('t','${h.result.replace(/'/g,"\\'")}','${h.platform}')">
+      <div><div class="hist-name">${h.name}</div><div class="hist-meta">${h.platform} · ${h.time}</div></div>
+      <div class="hist-arr">›</div>
+    </div>`).join('');
+}
+renderTitleHistory();
+
+// ═══════════════════ CHECKLIST ═══════════════════
+let clPlatform = 'ASEAN';
+function setClPlat(p) {
+  clPlatform = p;
+  ['asean','asia','both'].forEach(k => document.getElementById('clp-'+k).classList.remove('active'));
+  document.getElementById('clp-'+p.toLowerCase()).classList.add('active');
+}
+
+async function generateChecklist() {
+  const name = document.getElementById('cl-name').value.trim();
+  const title = document.getElementById('cl-title').value.trim();
+  if (!name || !title) { alert('Please enter candidate name and record title.'); return; }
+  const type = document.getElementById('cl-type').value;
+  const platform = clPlatform;
+  const context = document.getElementById('cl-context').value.trim();
+
+  hideErr('cl'); hideResult('cl');
+  showLoading('cl', true);
+
+  const isAttempt = type === 'attempt';
+  const platformDisplay = platform === 'Both' ? 'ASEAN Records and ASIA Records' : platform + ' Records';
+  const platformShort = platform === 'Both' ? 'ASEAN Records / ASIA Records' : platform + ' Records';
+
+  const prompt = `Generate a professional verification documents checklist for ASEAN Records and ASIA Records.
+
+CANDIDATE: ${name}
+RECORD TITLE: ${title}
+TYPE: ${isAttempt ? 'Official Record Attempt' : 'Direct Record Recognition'}
+PLATFORM: ${platformDisplay}
+${context ? 'ADDITIONAL CONTEXT: '+context : ''}
+
+Generate the checklist in this EXACT format:
+
+---
+
+To proceed with the evaluation and certification process, please prepare and upload the following verification documents for review by ${platformShort} on record title:
+
+"${title}"
+
+════════════════════════════════════════
+
+CATEGORY A: COMPANY LEGAL & PROFILE DOCUMENTS
+
+These documents establish the legitimacy and identity of your organization.
+
+☐ 1. Business Registration Certificate / Certificate of Incorporation
+☐ 2. Company Profile (overview of history, business activities, milestones)
+☐ 3. Company / Brand Video (corporate video or brand film — provide link or upload)
+☐ 4. Organizational chart showing key management
+☐ 5. List of directors / key personnel
+☐ 6. Audited Financial Statements (latest 2–3 years, if applicable)
+
+════════════════════════════════════════
+
+CATEGORY B: RECORD TITLE VERIFICATION DOCUMENTS
+
+These documents directly support and verify the claims in your record title. Based on your record title, please provide:
+
+[Generate 6–10 specific document requests tailored to the record title. Be specific about what the documents need to show. Examples based on the title elements:
+- For revenue claims: Audited revenue statements with specific years
+- For certifications: Certificates with issuing body and dates
+- For partnerships: Partnership agreements or letters of collaboration
+- For participant counts: Event attendance records with dates
+- For geographic reach: Evidence of operations in each country
+- For firsts: Media coverage or industry acknowledgment of being first
+Each item should be specific to what's in THIS record title.]
+
+════════════════════════════════════════
+
+CATEGORY C: DECLARATION LETTER
+
+☐ Declaration Letter (required — template below)
+
+Please prepare on company letterhead, signed by an authorized representative:
+
+---
+
+GENERAL DECLARATION LETTER TEMPLATE
+
+[Company/Organization Letterhead]
+
+Date: ___________________
+
+To: ${platformShort}
+
+Declaration Letter
+
+I, the undersigned, hereby declare and confirm on behalf of [Company/Organization Name], that the following information related to the record${isAttempt ? ' attempt' : ''} has been verified and is true, genuine, and legitimate to the best of our knowledge:
+
+Record Title:
+${title}
+
+Details of Declaration:
+
+Official Start Date: ___________________
+Official End Date: ___________________
+Total Number / Measurement / Quantity Achieved: ___________________
+
+All activities were carried out under applicable certifications, standards, and regulations. Supporting documentation has been prepared and submitted as per ${platformShort}'s verification requirements.
+
+We confirm that the above details are accurate, genuine, and legitimate, and this declaration is made in good faith for the purpose of ${platformShort} evaluation and certification.
+
+Authorized Signatory
+
+Name: ___________________________
+Designation: _____________________
+Company/Organization: ________________________
+Signature & Company Seal: _____________________
+Date: ___________________________
+
+📌 Note: This declaration must be printed on official letterhead, signed by an authorized representative, and uploaded with supporting documents.
+
+---
+
+════════════════════════════════════════
+
+📁 SUBMISSION INSTRUCTIONS
+
+Please upload all documents to a Google Drive folder and share the link with us.
+
+Ensure all documents are:
+✓ Clear and legible (PDF preferred)
+✓ Properly labelled by document type
+✓ In English or accompanied by certified translation
+✓ Complete — incomplete submissions will delay the evaluation process
+
+For questions, please contact your ASEAN Records consultant.
+
+════════════════════════════════════════`;
+
+  try {
+    const text = await callClaude(prompt, [], false);
+    showResult('cl', text, platform);
+  } catch(e) {
+    showErr('cl', '⚠️ '+e.message);
+  } finally {
+    hideLoading('cl');
+  }
+}
+
+// ═══════════════════ CERTIFICATE ═══════════════════
+let certPlatform = 'ASEAN';
+function setCertPlat(p) {
+  certPlatform = p;
+  ['asean','asia','both'].forEach(k => document.getElementById('certp-'+k).classList.remove('active'));
+  document.getElementById('certp-'+p.toLowerCase()).classList.add('active');
+}
+
+async function generateCertificate() {
+  const holder = document.getElementById('cert-holder').value.trim();
+  const title = document.getElementById('cert-title').value.trim();
+  if (!holder || !title) { alert('Please enter record holder name and title.'); return; }
+  const type = 'direct';
+  const platform = certPlatform;
+  const date = document.getElementById('cert-date').value.trim();
+  const event = document.getElementById('cert-event').value.trim();
+  const isProvisional = type === 'attempt';
+
+  hideErr('cert'); hideResult('cert');
+  showLoading('cert', true);
+
+  const prompt = `Prepare the certificate content draft for ${platform} Records based on the exact format we use.
+
+RECORD HOLDER NAME: ${holder}
+RECORD TITLE: ${title}
+TYPE: ${isProvisional ? 'Official Record Attempt (Provisional — final figures confirmed after event)' : 'Direct Record Recognition'}
+PLATFORM: ${platform === "Both" ? "ASEAN Records and ASIA Records" : platform + " Records"}
+${date ? 'PRESENTATION DATE: '+date : ''}
+${event ? 'EVENT: '+event : ''}
+
+Output the certificate content draft in EXACTLY this format — do not add extra sections or change the structure:
+
+═══════════════════════════════════════
+CERTIFICATE CONTENT DRAFT
+For Client Approval
+═══════════════════════════════════════
+
+This is to Certify That
+
+${holder}
+[Logo placement — client to provide AI format]
+
+is officially listed in
+
+${platform === "Both" ? "ASEAN RECORDS and ASIA RECORDS" : platform.toUpperCase() + " RECORDS"}
+
+for achieving
+
+[Write the full record title here exactly as confirmed, elegantly formatted.
+If the title is long, suggest a natural line break point.
+${isProvisional ? 'For provisional: write title without final figures, use "Target: XX" as placeholder.' : ''}]
+
+${isProvisional ? `
+⚠️  PROVISIONAL VERSION
+(Final verified figures to be inserted after official record attempt)
+` : ''}
+
+Presented on ${date || 'xx Month xxxx'}
+
+═══════════════════════════════════════
+
+CONTENT NOTES:
+• Record Holder Name: ${holder}
+• Platform: ${platform === "Both" ? "ASEAN Records and ASIA Records" : platform + " Records"}
+• Title line break suggestion: [suggest where to break the title for best visual balance]
+${isProvisional ? '• Provisional: Certificate frame will be retrieved after ceremony for final figures to be engraved' : '• Certificate type: Direct Recognition — all figures are in the record title bracket'}
+PLACEHOLDER CHECKLIST (confirm before sending to supplier):
+☐ Record holder name correct
+☐ Record title wording approved (including bracket figures)
+☐ Logo received in AI format (black version preferred)
+☐ Presentation date confirmed
+${isProvisional ? '☐ Provisional wording acknowledged by client' : '☐ All bracket figures verified and approved'}
+
+Please review and reply with your confirmation or amendments. Once approved, we will proceed to production.`;
+
+  try {
+    const text = await callClaude(prompt, [], false);
+    showResult('cert', text, isProvisional ? 'PROVISIONAL' : 'CERTIFICATE');
+  } catch(e) {
+    showErr('cert', '⚠️ '+e.message);
+  } finally {
+    hideLoading('cert');
+  }
+}
+
+// ═══════════════════ PRESS RELEASE ═══════════════════
+async function generatePress(mode) {
+  hideErr('pr'); hideResult('pr');
+  showLoading('pr', true);
+
+  let prompt;
+  if (mode === 'draft') {
+    const org = document.getElementById('pr-org').value.trim();
+    const title = document.getElementById('pr-title').value.trim();
+    if (!org || !title) { alert('Please enter organization and record title.'); hideLoading('pr'); return; }
+    const platform = document.getElementById('pr-platform').value;
+    const event = document.getElementById('pr-event').value.trim();
+    const facts = document.getElementById('pr-facts').value.trim();
+    const quote = document.getElementById('pr-quote').value.trim();
+    const tone = document.getElementById('pr-tone').value;
+
+    prompt = `Write a professional press release for ${platform} Records.
+
+ORGANIZATION: ${org}
+RECORD TITLE: ${title}
+PLATFORM: ${platform === "Both" ? "ASEAN Records and ASIA Records" : platform + " Records"}
+${event?'EVENT: '+event:''}
+${facts?'KEY FACTS & FIGURES: '+facts:''}
+${quote?'QUOTE: '+quote:''}
+TONE: ${tone}
+
+Write a complete, publication-ready press release with:
+
+FOR IMMEDIATE RELEASE
+
+[HEADLINE — punchy, newsworthy, includes the record achievement]
+
+[SUBHEADLINE — supporting detail]
+
+[CITY, DATE] — [Opening paragraph: who, what, when, where, why — lead with the record achievement]
+
+[Body paragraph 2: Background on the organization, their journey, what makes this record significant]
+
+[Body paragraph 3: Details of the record — verified figures, scope, timeline]
+
+${quote?'[Quote paragraph: From the representative, make it impactful and genuine]':'[Quote paragraph: [QUOTE FROM REPRESENTATIVE — TO BE PROVIDED]]'}
+
+[Paragraph about ${platform} Records: what it is, its significance, endorsements]
+
+[Closing paragraph: what this means for the industry, future plans]
+
+###
+
+About ${org}:
+[2-3 sentence company description]
+
+About ${platform} Records:
+${platform} Records is ${platform==='ASEAN'?'the official record-keeping body endorsed by the ASEAN Secretariat, recognising outstanding achievements across the 11 ASEAN nations.':'ASIA Records is the continental-level record recognition platform covering all five Asian sub-regions, recognising extraordinary achievements across Asia.'}
+
+Media Contact:
+[Name]
+${platform} Records
+[Email] | [Phone]
+
+---
+Word count: approximately 400–500 words
+Note: Placeholders in [brackets] require client confirmation before publication.`;
+
+  } else {
+    const draft = document.getElementById('pr-draft').value.trim();
+    if (!draft) { alert('Please paste your draft press release.'); hideLoading('pr'); return; }
+    const refTitle = document.getElementById('pr-ref-title').value.trim();
+    const instructions = document.getElementById('pr-instructions').value.trim();
+
+    prompt = `Polish and enhance this press release for ASEAN Records and ASIA Records standards.
+
+${refTitle?'RECORD TITLE: '+refTitle:''}
+${instructions?'SPECIFIC INSTRUCTIONS: '+instructions:''}
+
+ORIGINAL DRAFT:
+${draft}
+
+Please:
+1. Improve headline to be more newsworthy and impactful
+2. Strengthen the opening paragraph (lead with the record achievement)
+3. Ensure factual claims are clearly stated with evidence markers
+4. Add proper press release structure if missing (FOR IMMEDIATE RELEASE, sections, ###)
+5. Polish language for professional publication
+6. Add About [Organization] and About ASEAN Records and ASIA Records sections if missing
+7. Ensure tone is formal yet celebratory
+8. Add Media Contact section if missing
+
+Return the fully polished version followed by a brief note on key changes made.`;
+  }
+
+  try {
+    const text = await callClaude(prompt, [], false);
+    showResult('pr', text, mode==='draft'?'PRESS DRAFT':'POLISHED');
+  } catch(e) {
+    showErr('pr', '⚠️ '+e.message);
+  } finally {
+    hideLoading('pr');
+  }
+}
+
+// ═══════════════════ DASHBOARD ═══════════════════
+function addCandidate() {
+  const name = document.getElementById('new-cand-name').value.trim();
+  if (!name) { alert('Please enter a name.'); return; }
+  const platform = document.getElementById('new-cand-platform').value || 'ASEAN Records';
+  const status = document.getElementById('new-cand-status').value || 'proposed';
+  const proposed = document.getElementById('new-cand-proposed').value.trim() || '';
+  const record = document.getElementById('new-cand-record').value.trim() || '';
+  candidates.push({ id: Date.now(), name, platform, status, proposed, record, steps: new Array(18).fill(false) });
+  localStorage.setItem('tk_candidates', JSON.stringify(candidates));
+  document.getElementById('new-cand-name').value = '';
+  document.getElementById('new-cand-platform').value = 'ASEAN Records';
+  document.getElementById('new-cand-status').value = 'proposed';
+  document.getElementById('new-cand-proposed').value = '';
+  document.getElementById('new-cand-record').value = '';
+  renderDashboard();
+}
+
+function toggleStep(candId, stepIdx) {
+  const c = candidates.find(x => x.id === candId);
+  if (!c) return;
+  c.steps[stepIdx] = !c.steps[stepIdx];
+  localStorage.setItem('tk_candidates', JSON.stringify(candidates));
+  renderDashboard();
+}
+
+function deleteCandidate(id) {
+  if (!confirm('Remove this candidate?')) return;
+  candidates = candidates.filter(c => c.id !== id);
+  localStorage.setItem('tk_candidates', JSON.stringify(candidates));
+  renderDashboard();
+}
+
+function toggleCandBody(id) {
+  const el = document.getElementById('cand-body-'+id);
+  if (el) el.classList.toggle('open');
+}
+
+function renderDashboard() {
+  const empty = document.getElementById('dash-empty');
+  const list = document.getElementById('cand-list');
+  if (!candidates.length) { empty.style.display='block'; list.innerHTML=''; renderPipeline(); return; }
+  empty.style.display = 'none';
+  list.innerHTML = candidates.map(c => {
+    const done = c.steps.filter(Boolean).length;
+    const pct = Math.round((done/18)*100);
+    const statusBadge = c.status === 'confirmed'
+      ? `<span style="background:rgba(90,175,122,0.15);border:1px solid rgba(90,175,122,0.3);color:#5AAF7A;font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:0.06em">🟢 CONFIRMED</span>`
+      : `<span style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.2);color:var(--gold);font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:0.06em">🟡 PROPOSED</span>`;
+    const titleLine = c.status === 'confirmed' && c.record
+      ? `<div style="font-size:10px;color:var(--text-mid);margin-top:3px;line-height:1.4">📜 ${c.record}</div>`
+      : c.proposed
+      ? `<div style="font-size:10px;color:var(--text-dim);margin-top:3px;line-height:1.4">💡 ${c.proposed}</div>`
+      : '';
+    return `<div class="cand-card">
+      <div class="cand-header" onclick="toggleCandBody(${c.id})">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <div class="cand-name">${c.name}</div>
+            ${statusBadge}
+          </div>
+          <div class="cand-meta">${c.platform}</div>
+          ${titleLine}
+        </div>
+        <div class="cand-progress" style="flex-shrink:0;margin-left:8px">
+          <div class="prog-bar-wrap"><div class="prog-bar" style="width:${pct}%"></div></div>
+          <span class="prog-pct">${pct}%</span>
+        </div>
+      </div>
+      <div class="cand-body" id="cand-body-${c.id}">
+        <div style="margin-bottom:10px;display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:6px;align-items:center">
+            <span style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;min-width:60px">Status</span>
+            <select onchange="updateCandField(${c.id},'status',this.value)" style="flex:1;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:6px;padding:5px 8px;color:var(--text);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;-webkit-appearance:none;">
+              <option value="proposed" ${c.status!=='confirmed'?'selected':''}>🟡 Proposed</option>
+              <option value="confirmed" ${c.status==='confirmed'?'selected':''}>🟢 Confirmed</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start">
+            <span style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;min-width:60px;padding-top:8px">Proposed</span>
+            <textarea onblur="updateCandField(${c.id},'proposed',this.value)" style="flex:1;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:6px;padding:7px 9px;color:var(--text);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;resize:vertical;min-height:55px;line-height:1.5">${c.proposed||''}</textarea>
+          </div>
+          <div style="display:flex;gap:6px;align-items:flex-start">
+            <span style="font-size:10px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;min-width:60px;padding-top:8px">Confirmed</span>
+            <input type="text" value="${c.record||''}" onblur="updateCandField(${c.id},'record',this.value)" placeholder="Fill after client approval" style="flex:1;background:var(--dark-3);border:1px solid rgba(201,168,76,0.12);border-radius:6px;padding:7px 9px;color:var(--text);font-size:11px;font-family:'DM Sans',sans-serif;outline:none;" />
+          </div>
+        </div>
+        <div class="steps-grid">
+          ${STEPS.map((s,i) => `
+            <div class="step-row${c.steps[i]?' done':''}" onclick="toggleStep(${c.id},${i})">
+              <div class="step-chk"></div>
+              <span class="step-num">${String(i+1).padStart(2,'0')}</span>
+              <span class="step-name">${s}</span>
+            </div>`).join('')}
+        </div>
+        <div class="cand-actions">
+          <button class="cand-del" onclick="deleteCandidate(${c.id})">Remove Candidate</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  renderPipeline();
+}
+
+// Pipeline stages definition
+const PIPELINE_STAGES = [
+  { label: 'Prospecting', range: [0, 2], color: '#7A7268' },
+  { label: 'Application', range: [2, 4], color: '#5A8FAF' },
+  { label: 'Title Development', range: [4, 6], color: '#C9A84C' },
+  { label: 'Document Review', range: [6, 8], color: '#9B7FD4' },
+  { label: 'Event Prep', range: [8, 14], color: '#5AAF7A' },
+  { label: 'Ceremony', range: [14, 16], color: '#E8A44A' },
+  { label: 'Post-Event', range: [16, 18], color: '#5AAF7A' },
+];
+
+function getCandidateStage(c) {
+  const done = c.steps.filter(Boolean).length;
+  if (done === 18) return 6; // complete
+  for (let i = PIPELINE_STAGES.length - 1; i >= 0; i--) {
+    const [start] = PIPELINE_STAGES[i].range;
+    if (done >= start) return i;
+  }
+  return 0;
+}
+
+function renderPipeline() {
+  const wrap = document.getElementById('pipeline-grid');
+  const empty = document.getElementById('pipeline-empty');
+  if (!candidates.length) { empty.style.display='block'; wrap.innerHTML=''; return; }
+  empty.style.display = 'none';
+
+  // Group candidates by stage
+  const groups = PIPELINE_STAGES.map((s, i) => ({
+    ...s,
+    idx: i,
+    cands: candidates.filter(c => getCandidateStage(c) === i)
+  })).filter(g => g.cands.length > 0);
+
+  // Summary bar
+  const total = candidates.length;
+  const summaryHtml = `
+    <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+      <div style="background:var(--dark-3);border:1px solid var(--border);border-radius:7px;padding:8px 12px;flex:1;min-width:80px;text-align:center">
+        <div style="font-size:20px;font-weight:600;color:var(--gold);font-family:'Cormorant Garamond',serif">${total}</div>
+        <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em">Total</div>
+      </div>
+      ${PIPELINE_STAGES.map((s,i) => {
+        const count = candidates.filter(c => getCandidateStage(c) === i).length;
+        if (!count) return '';
+        return `<div style="background:var(--dark-3);border:1px solid var(--border);border-radius:7px;padding:8px 12px;flex:1;min-width:80px;text-align:center">
+          <div style="font-size:20px;font-weight:600;color:${s.color};font-family:'Cormorant Garamond',serif">${count}</div>
+          <div style="font-size:9px;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.06em;line-height:1.3">${s.label}</div>
+        </div>`;
+      }).join('')}
+    </div>`;
+
+  const stagesHtml = groups.map(g => `
+    <div class="pipeline-stage">
+      <div class="pipeline-stage-title">
+        <span>${g.label}</span>
+        <span class="stage-count">${g.cands.length}</span>
+        <span style="font-size:9px;color:var(--text-dim);text-transform:none;letter-spacing:0;font-weight:400">Steps ${g.range[0]+1}–${g.range[1]}</span>
+      </div>
+      <div>
+        ${g.cands.map(c => {
+          const done = c.steps.filter(Boolean).length;
+          const pct = Math.round((done/18)*100);
+          const nextStep = c.steps.findIndex(s => !s);
+          return `<span class="pipeline-pill">
+            ${c.name}
+            <span class="pill-pct">${pct}%</span>
+          </span>`;
+        }).join('')}
+      </div>
+    </div>`).join('');
+
+  wrap.innerHTML = summaryHtml + stagesHtml;
+}
+
+function generateStatusReport() {
+  if (!candidates.length) { alert('No candidates to report on.'); return; }
+  const today = new Date().toLocaleDateString('en-GB', {day:'numeric',month:'long',year:'numeric'});
+
+  let report = `ASEAN RECORDS & ASIA RECORDS\nCANDIDATE STATUS REPORT\nGenerated: ${today}\n`;
+  report += `${'═'.repeat(44)}\n\n`;
+  report += `PIPELINE SUMMARY\n`;
+  report += `Total Active Candidates: ${candidates.length}\n\n`;
+
+  // Stage breakdown
+  PIPELINE_STAGES.forEach((stage, i) => {
+    const inStage = candidates.filter(c => getCandidateStage(c) === i);
+    if (inStage.length) report += `${stage.label}: ${inStage.length} candidate${inStage.length>1?'s':''}\n`;
+  });
+
+  report += `\n${'─'.repeat(44)}\n\n`;
+  report += `INDIVIDUAL STATUS\n\n`;
+
+  candidates.forEach((c, idx) => {
+    const done = c.steps.filter(Boolean).length;
+    const pct = Math.round((done/18)*100);
+    const stageIdx = getCandidateStage(c);
+    const stage = PIPELINE_STAGES[stageIdx];
+    const nextStepIdx = c.steps.findIndex(s => !s);
+    const nextStep = nextStepIdx >= 0 ? `Step ${nextStepIdx+1}: ${STEPS[nextStepIdx]}` : 'All steps complete';
+    const completedSteps = c.steps.map((done, i) => done ? `Step ${i+1}` : null).filter(Boolean);
+
+    report += `${idx+1}. ${c.name.toUpperCase()}\n`;
+    report += `   Platform: ${c.platform}\n`;
+    if (c.status === 'confirmed' && c.record) report += `   Record Title: ${c.record}\n`;
+    else if (c.proposed) report += `   Proposed Title(s): ${c.proposed}\n   Status: Pending Client Confirmation\n`;
+    report += `   Stage: ${stage.label}\n`;
+    report += `   Progress: ${done}/18 steps (${pct}%)\n`;
+    report += `   Next Action: ${nextStep}\n`;
+    if (completedSteps.length) report += `   Completed: ${completedSteps.join(', ')}\n`;
+    report += `\n`;
+  });
+
+  report += `${'═'.repeat(44)}\n`;
+  report += `ASEAN Records and ASIA Records · Internal Use Only`;
+
+  document.getElementById('status-report-text').textContent = report;
+  document.getElementById('status-report-wrap').style.display = 'block';
+  document.getElementById('status-report-wrap').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function updateCandField(id, field, value) {
+  const c = candidates.find(x => x.id === id);
+  if (!c) return;
+  c[field] = value;
+  localStorage.setItem('tk_candidates', JSON.stringify(candidates));
+  renderDashboard();
+}
+
+function copyReportText() {
+  const text = document.getElementById('status-report-text').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = event.currentTarget; btn.textContent = '✓ Copied';
+    setTimeout(() => btn.textContent = 'Copy', 2000);
+  });
+}
+renderDashboard();
+
+// enter key for title
+document.getElementById('t-name').addEventListener('keydown', e => { if(e.key==='Enter') generateTitle(); });
+</script>
+</body>
+</html>
